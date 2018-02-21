@@ -15,8 +15,6 @@ public class Problem extends Type {
     public Problem(ProblemType type, String comment, State state, Timestamp timestamp) {
         this.problemType = type;
         this.aisle = 1;
-        //  this.timestamp = new Timestamp(System.currentTimeMillis());
-        System.out.println("bla"+timestamp);
         this.timestamp = timestamp;
         this.state = state;
         this.comment = comment;

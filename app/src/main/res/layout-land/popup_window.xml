@@ -9,7 +9,7 @@
         android:id="@+id/itemPic"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="50dp"
          />
 
@@ -42,7 +42,7 @@
 
     <TextView
         android:layout_width="180dp"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="price"

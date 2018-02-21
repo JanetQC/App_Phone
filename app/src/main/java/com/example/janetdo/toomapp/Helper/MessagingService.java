@@ -16,11 +16,9 @@ import static android.content.ContentValues.TAG;
  */
 
 public class MessagingService extends FirebaseMessagingService {
-    private Context context;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
         if (remoteMessage.getNotification() != null) {
 
             Handler mHandler = new Handler(Looper.getMainLooper());

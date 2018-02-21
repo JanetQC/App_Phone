@@ -168,7 +168,7 @@ public class WorkerActivity extends AppCompatActivity {
         relativeLayout = findViewById(R.id.relativeLayout);
         Button acceptBtn = popupView.findViewById(R.id.accept);
         Button deleteBtn = popupView.findViewById(R.id.delete);
-        final PopupWindow popupWindow = new PopupWindow(popupView, 900, 400, true);
+        final PopupWindow popupWindow = new PopupWindow(popupView, 1000, 400, true);
         popupWindow.showAtLocation(relativeLayout, Gravity.CENTER, 0, 0);
 
         TextView problemType = popupView.findViewById(R.id.type);
@@ -222,7 +222,6 @@ public class WorkerActivity extends AppCompatActivity {
         State state = allTypes.get(position).getState();
 
         if (state.equals(State.NEW)) {
-            FirebaseInstanceIDService notificationService = new FirebaseInstanceIDService();
             try {
                 notificationService.sendPushNotification("Ein Mitarbeiter ist unterwegs, bitte warten Sie.", "client");
             } catch (Exception e) {

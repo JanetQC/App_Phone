@@ -3,8 +3,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 public class Incident extends Type {
-    public Incident(String descriptionText, int aisle, State state, Timestamp timestamp) {
-        this.comment = descriptionText;
+    public Incident(String comment, int aisle, State state, Timestamp timestamp) {
+        this.comment = comment;
         this.aisle = aisle;
         this.timestamp = timestamp;
         this.state = state;
@@ -20,7 +20,7 @@ public class Incident extends Type {
     @Override
     public String toString() {
         return "Incident{" +
-                "descriptionText='" + comment + '\'' +
+                "comment='" + comment + '\'' +
                 ", _id='" + _id + '\'' +
                 ", _rev='" + _rev + '\'' +
                 ", aisle=" + aisle +

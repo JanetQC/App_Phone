@@ -3,9 +3,9 @@
   "_rev": "11-96f8f66ff2cc8e7215ce373e3363b935",
   "aisle": 1,
   "problemType": "OTHER",
-  "timestamp": "Jan 4, 2018 07:16:19",
+  "timestamp": "Feb 4, 2018 07:16:19",
   "unread": false,
-  "comment": "Kommentar 1",
+  "comment": "Brauche Beratung zur Farbe",
   "state": "NEW"
  },
  {
@@ -13,9 +13,9 @@
   "_rev": "3-e95b4903371ff93a219987f45e831d7c",
   "aisle": 2,
   "problemType": "GENERAL",
-  "timestamp": "Jan 17, 2018 17:51:15",
+  "timestamp": "Feb 17, 2018 17:51:15",
   "unread": false,
-   "comment": "Kommentar 2",
+   "comment": "Wagen kaputt",
   "state": "NEW"
  },
  {
@@ -23,9 +23,9 @@
    "_rev": "11-8c5bc1c5c06830d3f1eb1cf0cec13215",
    "aisle": 3,
    "problemType": "GENERAL",
-   "timestamp": "Jan 5, 2018 10:47:57",
+   "timestamp": "Feb 10, 2018 10:47:57",
    "unread": false,
-   "comment": "Kommentar 3",
+   "comment": "Ist das Produkt für alle Oberflächen geeignet?",
    "state": "NEW"
  },
  {
@@ -33,9 +33,9 @@
    "_rev": "11-d7205815ba9c07daa64d6b2aa87a133f",
    "aisle": 1,
    "problemType": "GENERAL",
-   "timestamp": "Jan 4, 2018 07:12:40",
+   "timestamp": "Feb 20, 2018 07:12:40",
    "unread": false,
-   "comment": "Kommentar 4",
+   "comment": "Brauche Beratung zur Farbe",
    "state": "IN_PROGRESS"
   },
   {
@@ -43,9 +43,9 @@
     "_rev": "11-d7205815ba9c07daa64d6b2aa87a133f",
     "aisle": 1,
     "problemType": "GENERAL",
-    "timestamp": "Jan 4, 2018 07:12:40",
+    "timestamp": "Feb 20, 2018 07:12:40",
     "unread": false,
-    "comment": "Kommentar 5",
+    "comment": "Beratung zu zwei Produkten",
     "state": "IN_PROGRESS"
   },
   {
@@ -53,22 +53,12 @@
     "_rev": "11-d7205815ba9c07daa64d6b2aa87a133f",
     "aisle": 1,
     "problemType": "GENERAL",
-    "timestamp": "Jan 4, 2018 07:12:40",
+    "timestamp": "Feb 14, 2018 07:12:40",
     "unread": false,
-    "comment": "Kommentar 6",
+    "comment": "Bitte kommen!",
     "state": "IN_PROGRESS"
   }
-,
-  {
-    "_id": "1d407d6d284040b3aff7fb8b19d30222",
-    "_rev": "11-d7205815ba9c07daa64d6b2aa87a133f",
-    "aisle": 1,
-    "problemType": "GENERAL",
-    "timestamp": "Jan 4, 2018 07:12:40",
-    "unread": false,
-    "comment": "Kommentar 6",
-    "state": "DONE"
-  }
+
 ]
 
  

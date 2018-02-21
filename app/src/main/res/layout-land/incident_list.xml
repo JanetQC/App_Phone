@@ -41,7 +41,7 @@
         android:id="@+id/filterType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="105dp"
+        android:layout_marginLeft="135dp"
         android:layout_toRightOf="@id/checkIncidents"
         android:layout_alignBaseline="@id/taskType"
         android:text="Sortieren nach: " />

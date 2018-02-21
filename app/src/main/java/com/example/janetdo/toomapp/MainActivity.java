@@ -3,6 +3,7 @@ package com.example.janetdo.toomapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.ConnectivityManager;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
     private void createItemCatalog() {
         try {
-            catalog = new Catalog(getAssets().open("rawData.json"));
+            catalog = new Catalog(getAssets().open("temp1.json"));
             catalog.initSortiment();
             problemCatalog = new Catalog(getAssets().open("problems.json"));
             incidentCatalog = new Catalog(getAssets().open("flaws.json"));
@@ -252,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         View popupView = inflater.inflate(R.layout.popup_window, null);
 
         boolean focusable = true;
-        final PopupWindow popupWindow = new PopupWindow(popupView, 900, 400, focusable);
+        final PopupWindow popupWindow = new PopupWindow(popupView, 1000, 450, focusable);
         RelativeLayout relativeLayout = findViewById(R.id.mainLayout);
         popupWindow.showAtLocation(relativeLayout, Gravity.CENTER, 0, 0);
 
@@ -260,9 +261,18 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         TextView price = popupView.findViewById(R.id.price);
         TextView name = popupView.findViewById(R.id.textName);
         TextView desc = popupView.findViewById(R.id.textDesc);
+        if(item.getSalesPrice() != 0.0) {
+            TextView salesPrice = popupView.findViewById(R.id.salesPrice);
+            salesPrice.setVisibility(View.VISIBLE);
+            salesPrice.setText(Double.toString(item.getSalesPrice()) + " €");
+            salesPrice.setTextSize(40);
+        salesPrice.setTextColor(getResources().getColor(R.color.darkRed));
+        price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
 
-        price.setTextColor(getResources().getColor(R.color.orange));
         price.setText(Double.toString(item.getPrice()) + " €");
+        price.setTextColor(getResources().getColor(R.color.black));
+
         itemPic = popupView.findViewById(R.id.itemPic);
         itemPic.setBackground(setItemPic(item));
 

@@ -51,7 +51,7 @@ public class ScanActivity extends Activity implements ZXingScannerView.ResultHan
     public void handleResult(Result rawResult) {
         Catalog catalog = null;
         try {
-             catalog = new Catalog(getAssets().open("rawData.json"));
+             catalog = new Catalog(getAssets().open("temp1.json"));
             catalog.initSortiment();
         } catch (Exception e) {
             System.out.println("Cannot read JSON file: " + e);
@@ -73,7 +73,7 @@ public class ScanActivity extends Activity implements ZXingScannerView.ResultHan
         View popupView = inflater.inflate(R.layout.popup_window, null);
 
         boolean focusable = true;
-        final PopupWindow popupWindow = new PopupWindow(popupView, 900, 400, focusable);
+        final PopupWindow popupWindow = new PopupWindow(popupView, 1000, 400, focusable);
 
         popupWindow.showAtLocation(mScannerView, Gravity.CENTER, 0, 0);
 

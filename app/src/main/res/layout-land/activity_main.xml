@@ -11,7 +11,7 @@
 
     <ImageView
         android:id="@+id/rectimage"
-        android:layout_width="520dp"
+        android:layout_width="560dp"
         android:layout_height="170dp"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="20dp"
@@ -54,7 +54,7 @@
 
     <Button
         android:id="@+id/btnProblem"
-        android:layout_width="280dp"
+        android:layout_width="260dp"
         android:layout_height="260dp"
         android:layout_alignEnd="@+id/rectimage"
         android:layout_below="@+id/rectimage"
@@ -70,7 +70,7 @@
         android:layout_width="300dp"
         android:layout_height="260dp"
         android:layout_below="@+id/rectimage"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:layout_toRightOf="@+id/btnProblem"
         android:background="@drawable/scan"
@@ -81,7 +81,7 @@
         android:id="@+id/btnMap"
         android:layout_width="300dp"
         android:layout_height="185dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/rectimage"
         android:background="@drawable/map_icon"
@@ -94,16 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/editText"
-        android:layout_marginEnd="10dp" />
-
-
-
-    <TextView
-        android:id="@+id/numberMsg"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_above="@+id/switch1"
-        android:layout_toStartOf="@+id/switch1" />
+/>
 
     <GridLayout
         android:id="@+id/gridLayout"

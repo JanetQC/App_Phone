@@ -81,8 +81,6 @@ public class MapActivity extends AppCompatActivity {
             Coordinate coord = transformPosition(-100, 100 * i);
             salesPin.setX(coord.getX());
             salesPin.setY(coord.getY());
-            salesPin.setScaleX(1.5f);
-            salesPin.setScaleY(1.5f);
             salesPin.setId(i);
             allPins.add(salesPin);
             layout.addView(salesPin);
@@ -109,7 +107,7 @@ public class MapActivity extends AppCompatActivity {
         Item item = allSalesItems.get(id);
 
         boolean focusable = true;
-        final PopupWindow popupWindow = new PopupWindow(popupView, 900, 400, focusable);
+        final PopupWindow popupWindow = new PopupWindow(popupView, 1000, 450, focusable);
 
         popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
@@ -131,6 +129,7 @@ public class MapActivity extends AppCompatActivity {
         desc.setText(item.getDescription());
         name.setText(item.getName());
         price.setTextSize(40);
+        desc.setTextSize(25);
         salesPrice.setTextSize(40);
         name.setTextSize(35);
         name.setTextSize(25);
