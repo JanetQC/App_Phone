@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.example.janetdo.toomapp.IncidentActivity">>
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/green_rectangle"></ImageView>
+
+    <TextView
+        android:id="@+id/introText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="380dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Mängel melden"
+        android:textColor="@color/white"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/incidentText"
+        android:layout_width="800dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/introText"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
+        android:text="Haben Sie einen Missstand, Mängel oder ein anderes Problem im Geschäft bemerkt? Bitte schildern Sie dieses Problem kurz:"
+        android:textColor="@color/black"
+        android:textSize="25dp" />
+
+
+    <EditText
+        android:id="@+id/incidentTextField"
+        android:layout_width="600dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/incidentText"
+        android:layout_marginLeft="50dp"
+        android:ems="15"
+        android:inputType="textPersonName"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/sendIncident"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/incidentTextField"
+        android:layout_marginLeft="780dp"
+        android:layout_marginTop="170dp"
+        android:background="@drawable/green_rectangle"
+        android:onClick="sendIncident"
+        android:text="Senden"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="30dp" />
+
+</RelativeLayout>

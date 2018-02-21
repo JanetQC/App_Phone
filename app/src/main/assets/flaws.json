@@ -1,0 +1,25 @@
+[{
+  "_id": "39c1f6c9c1154166baa276ccede6bb45",
+  "_rev": "3-91716ac2d6f29e3ab7c59ce4765814f0",
+  "aisle": 1,
+  "descriptionText": "Farbeimer ist beschädigt",
+  "timestamp": "Jan 5, 2018 10:29:04",
+  "unread": true
+ },
+ {
+   "_id": "4d10317abc494c49a1693f91f01a647f",
+   "_rev": "2-5b5a4086b72c9f0b8e9d2904ae8383d8",
+   "aisle": 5,
+   "descriptionText": "Holzplatte abgebrochen und splittert",
+   "timestamp": "Jan 4, 2018 07:14:08",
+   "unread": true
+  },
+  {
+    "_id": "5de0d304d5474255b4d3aef9ddf74c41",
+    "_rev": "2-b566eb7ac658dc1665c6930247f8f09f",
+    "aisle": 2,
+    "descriptionText": "Beutel Erde ist geplatzt",
+    "timestamp": "Jan 5, 2018 09:35:10",
+    "unread": true
+   }
+  ]

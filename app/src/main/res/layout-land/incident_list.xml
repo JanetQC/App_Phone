@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.janetdo.toomapp.WorkerActivity">
+    <TextView
+        android:id="@+id/taskType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:text="Anzeigen: " />
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkAll"
+        android:onClick="showAll"
+        android:layout_alignBaseline="@id/taskType"
+        android:layout_toRightOf="@id/taskType"
+        android:text="alle" />
+    <CheckBox
+        android:id="@+id/checkProblems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/checkAll"
+        android:layout_alignBaseline="@id/taskType"
+        android:onClick="sortProblems"
+        android:text="Probleme" />
+    <CheckBox
+        android:id="@+id/checkIncidents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/checkProblems"
+        android:onClick="sortIncidents"
+        android:layout_alignBaseline="@id/taskType"
+        android:text="Mängel" />
+    <TextView
+        android:id="@+id/filterType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="105dp"
+        android:layout_toRightOf="@id/checkIncidents"
+        android:layout_alignBaseline="@id/taskType"
+        android:text="Sortieren nach: " />
+    <CheckBox
+        android:id="@+id/checkTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/filterType"
+        android:onClick="sortTimestamp"
+        android:layout_alignBaseline="@id/taskType"
+        android:text="Zeit" />
+    <CheckBox
+        android:id="@+id/checkState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/checkTimestamp"
+        android:onClick="sortState"
+        android:layout_alignBaseline="@id/taskType"
+        android:text="Status" />
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/checkAll">
+
+        <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swiperefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></ListView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </GridLayout>
+
+
+</RelativeLayout>

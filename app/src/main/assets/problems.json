@@ -1,0 +1,56 @@
+[{
+  "_id": "0b252708b2f0486ebf7feee5eddc323a",
+  "_rev": "11-96f8f66ff2cc8e7215ce373e3363b935",
+  "aisle": 1,
+  "problemType": "OTHER",
+  "timestamp": "Jan 4, 2018 07:16:19",
+  "unread": false,
+  "comment": "Kommentar 1",
+  "state": "NEW"
+ },
+ {
+  "_id": "0be11ff04f9744fdb3f910ac32bac041",
+  "_rev": "3-e95b4903371ff93a219987f45e831d7c",
+  "aisle": 2,
+  "problemType": "GENERAL",
+  "timestamp": "Jan 17, 2018 17:51:15",
+  "unread": false,
+   "comment": "Kommentar 2",
+  "state": "NEW"
+ },
+ {
+   "_id": "1098fe9937ac4e99923ad3063f36f7a1",
+   "_rev": "11-8c5bc1c5c06830d3f1eb1cf0cec13215",
+   "aisle": 3,
+   "problemType": "GENERAL",
+   "timestamp": "Jan 5, 2018 10:47:57",
+   "unread": false,
+   "comment": "Kommentar 3",
+   "state": "NEW"
+ },
+ {
+   "_id": "1d407d6d284040b3aff7fb8b19d30222",
+   "_rev": "11-d7205815ba9c07daa64d6b2aa87a133f",
+   "aisle": 1,
+   "problemType": "GENERAL",
+   "timestamp": "Jan 4, 2018 07:12:40",
+   "unread": false,
+   "comment": "Kommentar 4",
+   "state": "IN_PROGRESS"
+  },
+  {
+    "_id": "1d407d6d284040b3aff7fb8b19d30222",
+    "_rev": "11-d7205815ba9c07daa64d6b2aa87a133f",
+    "aisle": 1,
+    "problemType": "GENERAL",
+    "timestamp": "Jan 4, 2018 07:12:40",
+    "unread": false,
+    "comment": "Kommentar 5",
+    "state": "IN_PROGRESS"
+  }
+
+
+
+]
+
+ 

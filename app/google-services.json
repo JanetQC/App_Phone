@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "426366149694",
+    "firebase_url": "https://toomproject.firebaseio.com",
+    "project_id": "toomproject",
+    "storage_bucket": "toomproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426366149694:android:14fcd3c59e36b0de",
+        "android_client_info": {
+          "package_name": "com.example.janetdo.toomapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426366149694-ndck9ioftquie65603fkjf32jk4a9a64.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWVuQcgd523xgduAaH8WwmWO870R9DDyA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

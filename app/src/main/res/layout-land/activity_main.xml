@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:id="@+id/mainLayout"
+    tools:context="com.example.janetdo.toomapp.MainActivity">
+
+    <ImageView
+        android:id="@+id/rectimage"
+        android:layout_width="520dp"
+        android:layout_height="170dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="18dp"
+        android:src="@drawable/white_rectangle"></ImageView>
+
+    <TextView
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:text="Artikel suchen"
+        android:textColor="@color/backgroundGreen"
+        android:textSize="40dp" />
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/fancySearch"
+        android:layout_width="480dp"
+        android:layout_height="40dp"
+        style="@style/SearchViewStyle"
+        android:layout_alignLeft="@+id/editText"
+        android:layout_alignStart="@+id/editText"
+        android:layout_below="@+id/editText"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:tooltipText="Produkt eingeben" />
+
+    <Button
+        android:id="@+id/btnWorker"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        android:layout_alignStart="@+id/rectimage"
+        android:layout_below="@+id/rectimage"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/worker_icon"
+        android:onClick="openWorker"
+       />
+
+    <Button
+        android:id="@+id/btnProblem"
+        android:layout_width="280dp"
+        android:layout_height="260dp"
+        android:layout_alignEnd="@+id/rectimage"
+        android:layout_below="@+id/rectimage"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_toRightOf="@+id/btnWorker"
+        android:background="@drawable/problem_icon"
+        android:onClick="openProblem"
+       />
+
+    <Button
+        android:id="@+id/btnScan"
+        android:layout_width="300dp"
+        android:layout_height="260dp"
+        android:layout_below="@+id/rectimage"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_toRightOf="@+id/btnProblem"
+        android:background="@drawable/scan"
+        android:onClick="openScannerView"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btnMap"
+        android:layout_width="300dp"
+        android:layout_height="185dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/rectimage"
+        android:background="@drawable/map_icon"
+        android:onClick="openMap"
+        android:textColor="@color/white" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/editText"
+        android:layout_marginEnd="10dp" />
+
+
+
+    <TextView
+        android:id="@+id/numberMsg"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_above="@+id/switch1"
+        android:layout_toStartOf="@+id/switch1" />
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rectimage">
+           <ListView
+            android:id="@+id/searchList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+       </GridLayout>
+</RelativeLayout>
