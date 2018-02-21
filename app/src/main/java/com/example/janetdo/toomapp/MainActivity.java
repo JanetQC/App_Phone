@@ -1,74 +1,92 @@
 package com.example.janetdo.toomapp;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
+import android.media.Image;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.SearchView;
+import android.widget.RelativeLayout;
+import android.support.v7.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.janetdo.toomapp.Helper.Catalog;
 import com.example.janetdo.toomapp.Helper.CloudantService;
-import com.example.janetdo.toomapp.Helper.FirebaseInstanceIDService;
 import com.example.janetdo.toomapp.Helper.Incident;
 import com.example.janetdo.toomapp.Helper.Item;
-import com.example.janetdo.toomapp.Helper.Catalog;
 import com.example.janetdo.toomapp.Helper.ListHolder;
 import com.example.janetdo.toomapp.Helper.Problem;
+import com.example.janetdo.toomapp.Helper.SearchAdapter;
 import com.example.janetdo.toomapp.Helper.User;
+import com.example.janetdo.toomapp.Helper.WorkerAdapter;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private SearchView fancySearchView;
-    private Catalog catalog;
+    private static Catalog catalog;
     private Catalog problemCatalog;
     private Catalog incidentCatalog;
-    private List<Item> salesCatalog;
-    private Button btnViewProblem;
+    private static List<Item> salesCatalog;
     private Button btnMap;
     private Button btnWorker;
     private Button btnProblem;
     private Button btnScan;
-    private ImageView msgIcon;
-    private TextView numberMsg;
     private CloudantService cloudantService;
-    private TableLayout tableLayout;
+    private ListView searchList;
     private List<Item> searchResults;
     private Switch workerSwitch;
+    private NetworkInfo activeNetwork;
+    public static Context context;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getBaseContext();
         setContentView(R.layout.activity_main);
+        ConnectivityManager cm =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
+         activeNetwork = cm.getActiveNetworkInfo();
         cloudantService = new CloudantService();
-        fetchMainViewElements();
+
+        initViewElements();
         setDefaultView();
-        checkCurrentState();
+        //checkCurrentState();
         createItemCatalog();
         createSalesItemCatalog();
 
-        FirebaseInstanceIDService service = new FirebaseInstanceIDService();
-        FirebaseMessaging.getInstance().subscribeToTopic("worker");
-
+        FirebaseMessaging.getInstance().subscribeToTopic("client");
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("worker");
 
     }
 
+    public static Context getContext(){
+        return context;
+    }
     private void createItemCatalog() {
         try {
             catalog = new Catalog(getAssets().open("rawData.json"));
@@ -93,31 +111,24 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
     }
 
+    //TODO: this is not happening
     private void checkCurrentState() {
         if (!User.isUser()) {
             workerSwitch.setChecked(true);
         }
     }
 
-    private void fetchMainViewElements() {
+    private void initViewElements() {
         workerSwitch = (Switch) findViewById(R.id.switch1);
+        workerSwitch.setChecked(false);
         fancySearchView = (SearchView) findViewById(R.id.fancySearch);
-        btnViewProblem = (Button) findViewById(R.id.btnViewProblem);
         btnMap = (Button) findViewById(R.id.btnMap);
         btnScan = (Button) findViewById(R.id.btnScan);
         btnWorker = (Button) findViewById(R.id.btnWorker);
         btnProblem = (Button) findViewById(R.id.btnProblem);
-        msgIcon = (ImageView) findViewById(R.id.msg_icon);
-        numberMsg = findViewById(R.id.numberMsg);
-        tableLayout = findViewById(R.id.searchLayout);
-
-        numberMsg.setVisibility(View.GONE);
-        btnViewProblem.setVisibility(View.GONE);
-        msgIcon.setVisibility(View.GONE);
-        tableLayout.setVisibility(View.GONE);
-
-
-        setSearchListeners();
+        searchList = findViewById(R.id.searchList);
+        searchList.setVisibility(View.GONE);
+        initSearchListener();
     }
 
     private void setDefaultView() {
@@ -126,16 +137,17 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             public void onCheckedChanged(CompoundButton buttonView, boolean isAdmin) {
 
                 if (isAdmin) {
+                    FirebaseMessaging.getInstance().subscribeToTopic("worker");
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("client");
                     showAllProblems(buttonView);
                 } else {
+                    FirebaseMessaging.getInstance().subscribeToTopic("client");
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("worker");
                     btnMap.setVisibility(View.VISIBLE);
                     btnWorker.setVisibility(View.VISIBLE);
                     btnProblem.setVisibility(View.VISIBLE);
                     btnScan.setVisibility(View.VISIBLE);
-                    btnViewProblem.setVisibility(View.GONE);
-                    msgIcon.setVisibility(View.GONE);
-                    numberMsg.setVisibility(View.GONE);
-                    tableLayout.setVisibility(View.GONE);
+                  searchList.setVisibility(View.GONE);
                     User.setIsUser(true);
                 }
             }
@@ -146,16 +158,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     }
 
-    public void clickBtn(View view) {
-        System.out.println("I was clicked!!!!");
-        System.out.println(view.getId());
-    }
-
-    private void setSearchListeners() {
+    private void initSearchListener() {
+        RelativeLayout relativeLayout = findViewById(R.id.mainLayout);
+        ImageView greenRect = findViewById(R.id.rectimage);
         fancySearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                tableLayout.setVisibility(View.GONE);
+                searchList.setVisibility(View.GONE);
                 isSearch(false);
                 return false;
             }
@@ -164,90 +173,79 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             @Override
             public void onClick(View v) {
                 showTableSearch("");
-                tableLayout.setVisibility(View.VISIBLE);
+              searchList.setVisibility(View.VISIBLE);
                 isSearch(true);
             }
 
         });
-        ImageView greenRect = findViewById(R.id.rectimage);
+
+        relativeLayout.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
         greenRect.setOnClickListener(new SearchView.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tableLayout.setVisibility(View.GONE);
+              searchList.setVisibility(View.GONE);
                 isSearch(false);
+                hideKeyboard(v);
             }
 
         });
     }
 
-    private void checkForNewMessages() {
-        cloudantService.checkUnreadMessages();
-        numberMsg.setText(Integer.toString(cloudantService.getNewProblems().size()));
-        cloudantService.setMessagesToRead();
+    private void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public void showTableSearch(String s) {
-        tableLayout.removeAllViews();
-        String search = s.trim().toLowerCase();
+        String searchVal = s.trim().toLowerCase();
         searchResults = new ArrayList<>();
-        searchResults = catalog.searchItemString(search);
+        searchResults = catalog.searchItemString(searchVal);
+        String[] stuff = new String[searchResults.size()];
+        ListView lView = (ListView) findViewById(R.id.searchList);
+        SearchAdapter customizedAdapter;
+        customizedAdapter = new SearchAdapter(MainActivity.this, searchResults, stuff);
+        lView.setAdapter(customizedAdapter);
+        lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                showPopupWindow(searchResults.get(i));
+                View rowView = adapterView.getAdapter().getView(i, view, null);
+                System.out.println("start");
 
-        for (int i = 0; i < searchResults.size(); i++) {
-           final int position = i;
-            TableRow tableRow = new TableRow(this);
-            tableRow.setId(i);
-            tableRow.setClickable(true);
-            tableRow.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    int rowId = v.getId();
-                    System.out.println("Row clicked: " + v.getId());
-                    showPopupWindow(searchResults.get(rowId));
+            }
+        });
+    }
+    public static void setNavigationOnClickListener(ImageView view, int position){
+        System.out.println(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Position: ");
+                Intent intent = new Intent(MainActivity.getContext(), MapActivity.class);
+                ListHolder holder = new ListHolder();
+                holder.initItemList(salesCatalog);
+                intent.putExtra("salesPrice", holder);
+                Item item = catalog.getCatalog().get(position);
+                System.out.println("Show way to category"+ item.getCategory());
+                intent.putExtra("category", item.getCategory());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                MainActivity.getContext().startActivity(intent);
 
+            }
+        });
 
-                }
-            });
-
-            Item item = searchResults.get(i);
-            TextView view1 = new TextView(this);
-            view1.setText(item.getName());
-
-            ImageView compass = new ImageView(this);
-            compass.setImageDrawable(getDrawable(R.drawable.compass));
-            compass.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println(position);
-                    Item item = searchResults.get(position);
-                    String category = item.getCategory();
-                }
-            });
-
-            ImageView info = new ImageView(this);
-            info.setImageDrawable(getDrawable(R.drawable.info));
-
-            view1.setTextSize(25);
-            view1.setPadding(30, 10, 0, 10);
-            info.setPadding(0, 10, 20, 10);
-            compass.setPadding(0, 10, 0, 10);
-            compass.setScaleX(1.5f);
-            compass.setScaleY(1.5f);
-            info.setScaleX(1.8f);
-            info.setScaleY(1.8f);
-
-            tableRow.addView(view1);
-            tableRow.addView(compass);
-            tableRow.addView(info);
-            tableRow.setGravity(Gravity.LEFT);
-            TableRow.LayoutParams params = new TableRow.LayoutParams(1000, 50);
-            tableRow.setLayoutParams(params);
-            tableLayout.addView(tableRow);
-        }
     }
 
     private void showPopupWindow(Item item) {
-        TableLayout searchLayout = (TableLayout)
-                findViewById(R.id.searchLayout);
 
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -255,8 +253,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         boolean focusable = true;
         final PopupWindow popupWindow = new PopupWindow(popupView, 900, 400, focusable);
-
-        popupWindow.showAtLocation(searchLayout, Gravity.CENTER, 0, 0);
+        RelativeLayout relativeLayout = findViewById(R.id.mainLayout);
+        popupWindow.showAtLocation(relativeLayout, Gravity.CENTER, 0, 0);
 
         ImageView itemPic;
         TextView price = popupView.findViewById(R.id.price);
@@ -279,58 +277,17 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 popupWindow.dismiss();
+                hideKeyboard(v);
                 return true;
             }
         });
     }
 
-    private Drawable setItemPic(Item item) {
-        ImageView view = new ImageView(this);
-        Drawable drawable = null;
-        switch (item.getCategory().toLowerCase()) {
-            case "bodenbelag":
-                drawable = getDrawable(R.drawable.bodenbelag);
-                break;
-            case "pflanzen":
-                drawable = getDrawable(R.drawable.pflanzen);
-                break;
-            case "lacke":
-                drawable = getDrawable(R.drawable.category_paint);
-                break;
-            case "garten":
-                drawable = getDrawable(R.drawable.garten);
-                break;
-                /*
-            case "zement":
-                drawable = getDrawable(R.drawable.zement);
-                break;
-            case "bauzubehör":
-                drawable = getDrawable(R.drawable.bauzubehoer);
-                break;
-            case "styroporleisten":
-                drawable = getDrawable(R.drawable.styroporleisten);
-                break;
-            case "baustoffe":
-                drawable = getDrawable(R.drawable.baustoffe);
-                break;
-            case "dämmstoffe":
-                drawable = getDrawable(R.drawable.daemmstoffe);
-                break;
-                */
-            default:
-                drawable = getDrawable(R.drawable.sonstiges);
-
-
-        }
-        return drawable;
-
-    }
 
     @Override
     public boolean onQueryTextSubmit(String s) {
         showTableSearch(s);
-
-        tableLayout.setVisibility(View.VISIBLE);
+      searchList.setVisibility(View.VISIBLE);
         isSearch(true);
 
         return true;
@@ -342,14 +299,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             visible = View.GONE;
         }
         if (User.isUser()) {
-            btnMap.setVisibility(visible);
             btnWorker.setVisibility(visible);
             btnProblem.setVisibility(visible);
             btnScan.setVisibility(visible);
 
-        } else {
-            msgIcon.setVisibility(visible);
-            btnViewProblem.setVisibility(visible);
         }
     }
 
@@ -381,40 +334,68 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         startActivity(intent);
     }
 
-    public void viewIncidentList(View view) {
-         // List<Incident> incidents = cloudantService.getAllIncidents();
-        List<Incident> incidents = incidentCatalog.getIncidents();
-        Intent intent = new Intent(this, IncidentActivity.class);
-        intent.putExtra("layout", R.layout.test);
-
-        ListHolder holder = new ListHolder();
-        holder.initIncidentList(incidents);
-        intent.putExtra("incidentsList", holder);
-        startActivity(intent);
-    }
-
     public void showAllProblems(View view) {
-          //  List<Problem> problems = cloudantService.getAllProblems();
-        List<Problem> problems = problemCatalog.getProblems();
+        List<Incident> incidents;
+        List<Problem> problems;
+        boolean isWiFi = false;
+        if(activeNetwork != null) {
+            isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+        }
+        if (isWiFi) {
+            incidents = cloudantService.getAllIncidents();
+            problems = cloudantService.getAllProblems();
+        } else {
+            incidents = incidentCatalog.getIncidents();
+            problems = problemCatalog.getProblems();
+        }
         Intent intent = new Intent(this, WorkerActivity.class);
-        intent.putExtra("layout", R.layout.test);
+        intent.putExtra("layout", R.layout.incident_list);
 
         ListHolder holder = new ListHolder();
         holder.initProblemList(problems);
+        holder.initIncidentList(incidents);
         intent.putExtra("problemsList", holder);
         startActivity(intent);
     }
 
-    public void goHome(View view) {
-        Toast.makeText(getApplicationContext(), "Ihre Nachricht wurde versandt.",
-                Toast.LENGTH_LONG).show();
-        setContentView(R.layout.activity_main);
-        isSearch(false);
+    private Drawable setItemPic(Item item) {
+        Drawable drawable = null;
+        switch (item.getCategory().toLowerCase()) {
+            case "bodenbelag":
+                drawable = getDrawable(R.drawable.bodenbelag);
+                break;
+            case "pflanzen":
+                drawable = getDrawable(R.drawable.pflanzen);
+                break;
+            case "lacke":
+                drawable = getDrawable(R.drawable.category_paint);
+                break;
+            case "garten":
+                drawable = getDrawable(R.drawable.garten);
+                break;
+            case "zement":
+                drawable = getDrawable(R.drawable.zement);
+                break;
+            case "bauzubehör":
+                drawable = getDrawable(R.drawable.bauzubehoer);
+                break;
+            case "styroporleisten":
+                drawable = getDrawable(R.drawable.styroporleisten);
+                break;
+            case "baustoffe":
+                drawable = getDrawable(R.drawable.baustoffe);
+                break;
+            case "dämmstoffe":
+                drawable = getDrawable(R.drawable.daemmstoffe);
+                break;
+            default:
+                drawable = getDrawable(R.drawable.sonstiges);
+
+
+        }
+        return drawable;
+
     }
 
-    public void clickArea(View view) {
-        tableLayout.setVisibility(View.GONE);
-        isSearch(false);
-    }
 
 }

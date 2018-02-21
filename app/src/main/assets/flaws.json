@@ -4,7 +4,8 @@
   "aisle": 1,
   "descriptionText": "Farbeimer ist beschädigt",
   "timestamp": "Jan 5, 2018 10:29:04",
-  "unread": true
+  "unread": true,
+  "state": "NEW"
  },
  {
    "_id": "4d10317abc494c49a1693f91f01a647f",
@@ -12,7 +13,8 @@
    "aisle": 5,
    "descriptionText": "Holzplatte abgebrochen und splittert",
    "timestamp": "Jan 4, 2018 07:14:08",
-   "unread": true
+   "unread": true,
+   "state": "NEW"
   },
   {
     "_id": "5de0d304d5474255b4d3aef9ddf74c41",
@@ -20,6 +22,7 @@
     "aisle": 2,
     "descriptionText": "Beutel Erde ist geplatzt",
     "timestamp": "Jan 5, 2018 09:35:10",
-    "unread": true
+    "unread": true,
+    "state": "IN_PROGRESS"
    }
   ]

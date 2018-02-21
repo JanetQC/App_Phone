@@ -1,7 +1,6 @@
 package com.example.janetdo.toomapp;
 
 import android.graphics.Paint;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -33,6 +32,7 @@ public class MapActivity extends AppCompatActivity {
     private float zeroY = 570;
     List<ImageView> allPins;
     List<Item> allSalesItems;
+    DrawView drawView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +40,21 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
         layout = findViewById(R.id.map_layout);
         allPins = new ArrayList<>();
+
         putAvatarDefaultPosition();
-
-
         Bundle extras = getIntent().getExtras();
         ListHolder holder = (ListHolder) extras.get("salesPrice");
+        String destiny ="";
+        if(extras.containsKey("category")){
+            destiny = (String) extras.get("category");
+        }
+        System.out.println("destined category is: "+ destiny);
         allSalesItems = holder.getItemList();
         positionSaleItem();
-        addClickHandler();
-        DrawView drawView = new DrawView(getApplicationContext());
-        setContentView(drawView);
+        addPinsClickHandler();
+        drawView = new DrawView(getApplicationContext(), allPins, destiny);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(2000,2000);
+        addContentView(drawView, params);
     }
 
     private void putAvatarDefaultPosition() {
@@ -70,7 +75,6 @@ public class MapActivity extends AppCompatActivity {
     }
 
     private void positionSaleItem() {
-        int amount = 3;
         for (int i = 0; i < allSalesItems.size(); i++) {
             ImageView salesPin = new ImageView(this);
             salesPin.setImageDrawable(getDrawable(R.drawable.event));
@@ -85,7 +89,7 @@ public class MapActivity extends AppCompatActivity {
         }
     }
 
-    private void addClickHandler() {
+    private void addPinsClickHandler() {
         for (int i = 0; i < allPins.size(); i++) {
             ImageView pin = allPins.get(i);
             pin.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +101,6 @@ public class MapActivity extends AppCompatActivity {
             });
         }
     }
-
 
     private void showPopupWindow(int id) {
         LayoutInflater inflater = (LayoutInflater)

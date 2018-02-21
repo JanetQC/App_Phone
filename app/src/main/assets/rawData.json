@@ -7,7 +7,7 @@
     "aisle": "23",
     "category_id": "4",
     "subcategory": "2",
-    "category": "lacke",
+    "category": "daemmungen",
     "price": 3.89,
     "scanCode": "111111111111"
   },
@@ -19,8 +19,9 @@
     "aisle": "23",
     "category_id": "4",
     "subcategory": "2",
-    "category": "eisenwaren",
-    "price": 3.89,
+    "category": "bodenbelag",
+    "price": 30.89,
+    "salesPrice": 18.89,
     "scanCode": "222222222222"
   },
   {
@@ -31,7 +32,7 @@
     "aisle": "23",
     "category_id": "4",
     "subcategory": "2",
-    "category": "lacke",
+    "category": "bad_dusche_1",
     "price": 3.89,
     "scanCode": "333333333333"
   }

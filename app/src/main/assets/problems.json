@@ -47,10 +47,28 @@
     "unread": false,
     "comment": "Kommentar 5",
     "state": "IN_PROGRESS"
+  },
+  {
+    "_id": "1d407d6d284040b3aff7fb8b19d30222",
+    "_rev": "11-d7205815ba9c07daa64d6b2aa87a133f",
+    "aisle": 1,
+    "problemType": "GENERAL",
+    "timestamp": "Jan 4, 2018 07:12:40",
+    "unread": false,
+    "comment": "Kommentar 6",
+    "state": "IN_PROGRESS"
   }
-
-
-
+,
+  {
+    "_id": "1d407d6d284040b3aff7fb8b19d30222",
+    "_rev": "11-d7205815ba9c07daa64d6b2aa87a133f",
+    "aisle": 1,
+    "problemType": "GENERAL",
+    "timestamp": "Jan 4, 2018 07:12:40",
+    "unread": false,
+    "comment": "Kommentar 6",
+    "state": "DONE"
+  }
 ]
 
  
