@@ -1,6 +1,9 @@
 package com.example.janetdo.toomapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -20,6 +23,7 @@ import com.example.janetdo.toomapp.Helper.ListHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by janetdo on 05.12.17.
@@ -28,11 +32,13 @@ import java.util.List;
 public class MapActivity extends AppCompatActivity {
     private ImageView avatar;
     private RelativeLayout layout;
-    private float zeroX = 715;
+    private float zeroX = 730;
     private float zeroY = 570;
     List<ImageView> allPins;
     List<Item> allSalesItems;
     DrawView drawView;
+    public static Context context;
+    private static List<Item> salesCatalog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,28 +46,30 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
         layout = findViewById(R.id.map_layout);
         allPins = new ArrayList<>();
+        context = getBaseContext();
 
         putAvatarDefaultPosition();
         Bundle extras = getIntent().getExtras();
         ListHolder holder = (ListHolder) extras.get("salesPrice");
-        String destiny ="";
-        if(extras.containsKey("category")){
+        String destiny = "";
+        if (extras.containsKey("category")) {
             destiny = (String) extras.get("category");
         }
-        System.out.println("destined category is: "+ destiny);
+        System.out.println("destined category is: " + destiny);
         allSalesItems = holder.getItemList();
+        salesCatalog = allSalesItems;
         positionSaleItem();
         addPinsClickHandler();
         drawView = new DrawView(getApplicationContext(), allSalesItems, destiny);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(2000,2000);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(2000, 2000);
         addContentView(drawView, params);
     }
 
     private void putAvatarDefaultPosition() {
         avatar = new ImageView(this);
         avatar.setImageDrawable(getDrawable(R.drawable.avatar));
-        avatar.setX(zeroX);
-        avatar.setY(zeroY);
+        avatar.setX(zeroX - 18);
+        avatar.setY(zeroY + 12);
         avatar.setScaleX(1f);
         avatar.setScaleY(1f);
         layout.addView(avatar);
@@ -77,16 +85,23 @@ public class MapActivity extends AppCompatActivity {
     private void positionSaleItem() {
         DrawView view = new DrawView(getApplicationContext(), null);
         for (int i = 0; i < allSalesItems.size(); i++) {
-            List<Coordinate> coordinates = view.getDrawCoordinates(allSalesItems.get(i).getCategory());
-            System.out.println("cat"+allSalesItems.get(i).getCategory());
+            String category = allSalesItems.get(i).getCategory();
+            List<Coordinate> coordinates = view.getDrawCoordinates(category);
+            System.out.println("cat" + allSalesItems.get(i).getCategory());
             ImageView salesPin = new ImageView(this);
             salesPin.setImageDrawable(getDrawable(R.drawable.sale_info));
-            //Coordinate coord = transformPosition(-100, 100 * i);
 
-            float x =coordinates.get(coordinates.size()-1).getX();
-            float y =coordinates.get(coordinates.size()-1).getY();
-            System.out.println("coords"+x+", "+y);
-            if(allSalesItems.get(i).getCategory())
+            float x = coordinates.get(coordinates.size() - 1).getX();
+            float y = coordinates.get(coordinates.size() - 1).getY();
+            System.out.println("coords" + x + ", " + y);
+
+            if (category.contains("daemmungen")) {
+                x += 15;
+                y -= 60;
+            } else {
+                x -= 22;
+                y += 10;
+            }
             salesPin.setX(x);
             salesPin.setY(y);
             salesPin.setId(i);
@@ -133,7 +148,26 @@ public class MapActivity extends AppCompatActivity {
         salesPrice.setText(String.format("%.2f", item.getSalesPrice()) + " €");
         price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         itemPic = popupView.findViewById(R.id.itemPic);
-        itemPic.setBackground(getDrawable(R.drawable.sonstiges));
+        itemPic.setBackground(setItemPic(item));
+
+        ImageView navi = popupView.findViewById(R.id.navi);
+     //   setNavigationOnClickListener(navi, id);
+        navi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Position: ");
+                Intent intent = new Intent(getContext(), MapActivity.class);
+                ListHolder holder = new ListHolder();
+                holder.initItemList(allSalesItems);
+                intent.putExtra("salesPrice", holder);
+                Item item = allSalesItems.get(id);
+                intent.putExtra("category", item.getCategory());
+                popupWindow.dismiss();
+                finish();
+                startActivity(intent);
+
+            }
+        });
 
         desc.setText(item.getDescription());
         name.setText(item.getName());
@@ -150,6 +184,71 @@ public class MapActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+    private Drawable setItemPic(Item item) {
+        Drawable drawable = null;
+        switch (item.getCategory().toLowerCase()) {
+            case "bodenbelag":
+                drawable = getDrawable(R.drawable.bodenbelag);
+                break;
+            case "pflanzen":
+                drawable = getDrawable(R.drawable.pflanzen);
+                break;
+            case "lacke":
+                drawable = getDrawable(R.drawable.category_paint);
+                break;
+            case "garten":
+                drawable = getDrawable(R.drawable.garten);
+                break;
+            case "zement":
+                drawable = getDrawable(R.drawable.zement);
+                break;
+            case "bauzubehoer":
+                drawable = getDrawable(R.drawable.bauzubehoer);
+                break;
+            case "styroporleisten":
+                drawable = getDrawable(R.drawable.styroporleisten);
+                break;
+            case "baustoffe":
+                drawable = getDrawable(R.drawable.baustoffe);
+                break;
+            case "daemmungen":
+                drawable = getDrawable(R.drawable.daemmstoffe);
+                break;
+            case "leuchten":
+                drawable = getDrawable(R.drawable.lampen);
+                break;
+            default:
+                drawable = getDrawable(R.drawable.sonstiges);
+
+
+        }
+        return drawable;
+
+    }
+
+    public void setNavigationOnClickListener(ImageView view, int position) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Position: ");
+                Intent intent = new Intent(getContext(), MapActivity.class);
+                ListHolder holder = new ListHolder();
+                holder.initItemList(allSalesItems);
+                intent.putExtra("salesPrice", holder);
+                Item item = allSalesItems.get(position);
+                intent.putExtra("category", item.getCategory());
+               // MapActivity.getContext().startActivity(intent);
+                finish();
+                startActivity(intent);
+
+            }
+        });
+
+    }
+
+    public static Context getContext() {
+        return context;
     }
 
     @Override
@@ -192,7 +291,6 @@ public class MapActivity extends AppCompatActivity {
                 return super.onKeyUp(keyCode, event);
         }
     }
-
 
 
 }

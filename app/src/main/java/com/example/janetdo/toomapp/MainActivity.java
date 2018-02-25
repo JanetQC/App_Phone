@@ -260,7 +260,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 holder.initItemList(salesCatalog);
                 intent.putExtra("salesPrice", holder);
                 Item item = catalog.getCatalog().get(position);
-                System.out.println("Show way to category" + item.getCategory());
                 intent.putExtra("category", item.getCategory());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 MainActivity.getContext().startActivity(intent);
@@ -413,7 +412,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             case "zement":
                 drawable = getDrawable(R.drawable.zement);
                 break;
-            case "bauzubehör":
+            case "bauzubehoer":
                 drawable = getDrawable(R.drawable.bauzubehoer);
                 break;
             case "styroporleisten":
@@ -422,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             case "baustoffe":
                 drawable = getDrawable(R.drawable.baustoffe);
                 break;
-            case "dämmstoffe":
+            case "daemmungen":
                 drawable = getDrawable(R.drawable.daemmstoffe);
                 break;
             case "leuchten":

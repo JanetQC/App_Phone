@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -36,8 +37,9 @@ public class DrawView extends View {
     List<Item> allSalesItems;
     String category;
     float additionalLength;
-    float distanceFirstUp = 305;
+    float distanceFirstUp = 325;
     boolean isLeft = true;
+    private ImageView avatar;
 
     private void init() {
         paint.setColor(Color.RED);
@@ -84,12 +86,6 @@ public class DrawView extends View {
         wholeMap.put("bauzubehoer", coord11);
         wholeMap.put("baustoffe", coord12);
 
-        initPins();
-    }
-
-    private void initPins() {
-        //Item item = allPins.get(0);
-        // String category = item.getCategory();
     }
 
     public DrawView(Context context, List<Item> allSalesItems, String category) {
@@ -109,12 +105,6 @@ public class DrawView extends View {
         init();
     }
 
-
-
-    public void setCoordinate(Coordinate coord) {
-        this.coordinate = coord;
-    }
-
     @Override
     public void onDraw(Canvas canvas) {
         canvas.drawColor(0x00AAAAAA);
@@ -132,55 +122,39 @@ public class DrawView extends View {
         canvas.drawLine(firstUp.getX(), firstUp.getY(), allCoordinates.get(0).getX() + additionalLength, allCoordinates.get(0).getY(), paint);
         canvas.drawLine(allCoordinates.get(0).getX(), allCoordinates.get(0).getY(), allCoordinates.get(1).getX(), allCoordinates.get(1).getY(), paint);
         Coordinate lastCoordinate = allCoordinates.get(allCoordinates.size() - 1);
-        System.out.println("actual size: " + allCoordinates.size());
         Drawable icon = getResources().getDrawable(R.drawable.event);
         Bitmap bitmapIcon = ((BitmapDrawable) icon).getBitmap();
-        int xIconDistance = 55;
-        int yIconDistance = 30;
+        int xIconDistance = 23;
+        int yIconDistance = 40;
         float x = lastCoordinate.getX() - xIconDistance;
         float y = lastCoordinate.getY() - yIconDistance;
         if (isLeft) {
-            x = lastCoordinate.getX() + xIconDistance;
+            x = lastCoordinate.getX() - xIconDistance;
         }
         isLeft = true;
         canvas.drawBitmap(bitmapIcon, x, y, null);
-/*
-        Drawable saleinfo = getResources().getDrawable(R.drawable.sale_info);
-        for (int i = 0; i < allSalesItems.size(); i++) {
-            Bitmap bitmapSaleInfo = ((BitmapDrawable) saleinfo).getBitmap();
-            List<Coordinate> coordinates = getDrawCoordinates(allSalesItems.get(i).getCategory());
-            for (int j = 0; j < coordinates.size(); j++) {
-                Coordinate coord = coordinates.get(j);
-                float coordX = coord.getX() - xIconDistance;
-                float coordY = coord.getY() - yIconDistance;
-                if (isLeft) {
-                    coordX = coord.getX() + xIconDistance;
-                }
-                canvas.drawBitmap(bitmapSaleInfo, coordX, coordY, null);
-                isLeft = true;
-            }
-        }
-*/
+
     }
 
     public List<Coordinate> getDrawCoordinates(String category) {
+        coordinate = new Coordinate(0, 0);
+        System.out.println("calculating cat" + category);
         // for left + partly right smaller distance
-        float leftDistance = 180;
+        float leftDistance = 165;
         //first big right
         float rightDistance = 175;
         Coordinate firstUp = new Coordinate(zeroX, zeroY - distanceFirstUp);
         List<Coordinate> allCoordinates = new ArrayList<>();
         Coordinate defaultCoordinate = getPath(category);
-        if (coordinate == null) {
-            coordinate = defaultCoordinate;
-        } else {
-            coordinate = new Coordinate(0, 0);
-        }
-        //float additionalLength;
+        coordinate = defaultCoordinate;
         //left half of the map
         if (coordinate.getX() < 0) {
             isLeft = true;
-            Coordinate left = new Coordinate(firstUp.getX() - leftDistance * Math.abs(coordinate.getY()), firstUp.getY());
+            int plus = 0;
+            if(Math.abs(coordinate.getY()) > 1){
+                plus =12;
+            }
+            Coordinate left = new Coordinate(firstUp.getX() - leftDistance * Math.abs(coordinate.getY()) - plus, firstUp.getY());
             additionalLength = -3;
             allCoordinates.add(left);
             if (coordinate.getY() > 0) {
@@ -214,10 +188,51 @@ public class DrawView extends View {
             String listCategory = entry.getKey();
             if (listCategory.equals(category)) {
                 result = entry.getValue();
+                System.out.println("vlaue is" + result);
             }
         }
         return result;
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //ImageView avatar = findViewById(R.id.avatar);
+        float coordX = avatar.getX();
+        float coordY = avatar.getY();
+        float rotate = avatar.getRotation();
+        float rotateY = avatar.getRotationY();
+        switch (keyCode) {
+
+            case KeyEvent.KEYCODE_A:
+                avatar.setX(coordX - 5f);
+                return true;
+            case KeyEvent.KEYCODE_D:
+                avatar.setX(coordX + 5f);
+                return true;
+            case KeyEvent.KEYCODE_W:
+                avatar.setY(coordY - 5f);
+                return true;
+            case KeyEvent.KEYCODE_S:
+                avatar.setY(coordY + 5f);
+                return true;
+            case KeyEvent.KEYCODE_K:
+                avatar.setRotation(rotate - 50f);
+                return true;
+            case KeyEvent.KEYCODE_L:
+                avatar.setRotation(rotate + 50f);
+                return true;
+            case KeyEvent.KEYCODE_O:
+                avatar.setRotation(0f);
+                return true;
+            case KeyEvent.KEYCODE_I:
+                avatar.setRotation(rotate + 90f);
+                return true;
+            case KeyEvent.KEYCODE_X:
+                return true;
+
+            default:
+                return super.onKeyUp(keyCode, event);
+        }
+    }
 
 }

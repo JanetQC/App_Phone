@@ -14,13 +14,14 @@
          />
 
     <TextView
-        android:layout_width="400dp"
+        android:id="@+id/textName"
+        android:layout_width="500dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"
         android:layout_toRightOf="@id/itemPic"
         android:text="textName"
-        android:id="@+id/textName" />
+        />
 
     <TextView
         android:layout_width="600dp"

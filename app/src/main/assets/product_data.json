@@ -6,7 +6,6 @@
     "aisle": 1,
     "category": "lacke",
     "price": 13.89,
-    "salesPrice": 6.80,
     "scanCode": "111111111111"
   },
   {
@@ -16,7 +15,6 @@
     "aisle": 2,
     "category": "tapeten",
     "price": 15.63,
-    "salesPrice": 14.99,
     "scanCode": "222222222222"
   },
   {
@@ -33,7 +31,7 @@
     "name": "Wärmedämmplatten",
     "description": "Die Wärmedämmplatten „Multipor“ sind ideal zur Dämmung von Wänden, Decken und Dächern.",
     "aisle": 4,
-    "category": "bodenbelag",
+    "category": "daemmungen",
     "price": 36.49,
     "salesPrice": 26.49,
     "scanCode": "4444444444444"
@@ -41,10 +39,11 @@
   {
     "id": "239135",
     "name": "Eglo Deckenleuchte",
-    "description": "Sorgt für ein Diffuses, blendfreies Licht. Besitzt eine klassische Fassung und erhellt jeden Raum in einer warmen Atmosphäre.",
+    "description": "Sorgt für ein diffuses, blendfreies Licht. Besitzt eine klassische Fassung und erhellt jeden Raum in einer warmen Atmosphäre.",
     "aisle": 5,
     "category": "leuchten",
     "price": 24.99,
+    "salesPrice": 20.50,
     "scanCode": "5555555555555"
   },
   {
@@ -53,6 +52,7 @@
     "description": "Die Meister-Box aus dem Hause Fischer beinhaltet insgesamt 110 Universaldübel aus hochwertigem Nylon. Sie sind allesamt übersichtlich in der Box sortiert und können für alle Baustoffe verwendet werden.",
     "aisle": 7,
     "category": "bauzubehoer",
-    "price": 81.49
+    "price": 81.49,
+    "salesPrice": 75.00
   }
 ]

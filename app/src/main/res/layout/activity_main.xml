@@ -48,6 +48,7 @@
         android:layout_below="@+id/editText"
         android:layout_marginTop="20dp"
         android:background="@color/white"
+        android:visibility="invisible"
         android:tooltipText="Produkt eingeben" />
 
     <Button
