@@ -5,7 +5,7 @@ package com.example.janetdo.toomapp.Helper;
  */
 
 public class User {
-    private static boolean isUser = true;
+    private static boolean isUser = false;
 
     public static void setIsUser(boolean isUser) {
         User.isUser = isUser;

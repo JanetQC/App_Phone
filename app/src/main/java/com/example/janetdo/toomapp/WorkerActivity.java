@@ -54,7 +54,6 @@ public class WorkerActivity extends AppCompatActivity {
     private List<Type> allTypes;
     private List<Problem> problems;
     private List<Incident> incidents;
-    private ListHolder holder;
     private NetworkInfo activeNetwork;
 
     private CheckBox all;

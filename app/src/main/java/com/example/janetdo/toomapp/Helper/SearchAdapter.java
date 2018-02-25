@@ -42,7 +42,6 @@ public class SearchAdapter extends ArrayAdapter<String> {
 
         TextView itemName = (TextView) rowView.findViewById(R.id.itemName);
         ImageView navigation = (ImageView) rowView.findViewById(R.id.navigation);
-        ImageView information = (ImageView) rowView.findViewById(R.id.information);
         String name = items.get(position).getName();
         itemName.setText(name);
 

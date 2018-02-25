@@ -28,7 +28,7 @@ import java.util.List;
 public class MapActivity extends AppCompatActivity {
     private ImageView avatar;
     private RelativeLayout layout;
-    private float zeroX = 705;
+    private float zeroX = 715;
     private float zeroY = 570;
     List<ImageView> allPins;
     List<Item> allSalesItems;
@@ -52,7 +52,7 @@ public class MapActivity extends AppCompatActivity {
         allSalesItems = holder.getItemList();
         positionSaleItem();
         addPinsClickHandler();
-        drawView = new DrawView(getApplicationContext(), allPins, destiny);
+        drawView = new DrawView(getApplicationContext(), allSalesItems, destiny);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(2000,2000);
         addContentView(drawView, params);
     }
@@ -75,13 +75,22 @@ public class MapActivity extends AppCompatActivity {
     }
 
     private void positionSaleItem() {
+        DrawView view = new DrawView(getApplicationContext(), null);
         for (int i = 0; i < allSalesItems.size(); i++) {
+            List<Coordinate> coordinates = view.getDrawCoordinates(allSalesItems.get(i).getCategory());
+            System.out.println("cat"+allSalesItems.get(i).getCategory());
             ImageView salesPin = new ImageView(this);
-            salesPin.setImageDrawable(getDrawable(R.drawable.event));
-            Coordinate coord = transformPosition(-100, 100 * i);
-            salesPin.setX(coord.getX());
-            salesPin.setY(coord.getY());
+            salesPin.setImageDrawable(getDrawable(R.drawable.sale_info));
+            //Coordinate coord = transformPosition(-100, 100 * i);
+
+            float x =coordinates.get(coordinates.size()-1).getX();
+            float y =coordinates.get(coordinates.size()-1).getY();
+            System.out.println("coords"+x+", "+y);
+            if(allSalesItems.get(i).getCategory())
+            salesPin.setX(x);
+            salesPin.setY(y);
             salesPin.setId(i);
+
             allPins.add(salesPin);
             layout.addView(salesPin);
         }
@@ -120,8 +129,8 @@ public class MapActivity extends AppCompatActivity {
 
         price.setTextColor(getResources().getColor(R.color.black));
         salesPrice.setTextColor(getResources().getColor(R.color.darkRed));
-        price.setText(Double.toString(item.getPrice()) + " €");
-        salesPrice.setText(Double.toString(item.getSalesPrice()) + " €");
+        price.setText(String.format("%.2f", item.getPrice()) + " €");
+        salesPrice.setText(String.format("%.2f", item.getSalesPrice()) + " €");
         price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         itemPic = popupView.findViewById(R.id.itemPic);
         itemPic.setBackground(getDrawable(R.drawable.sonstiges));

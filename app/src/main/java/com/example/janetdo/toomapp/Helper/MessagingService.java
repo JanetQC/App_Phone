@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.example.janetdo.toomapp.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -25,11 +26,14 @@ public class MessagingService extends FirebaseMessagingService {
             mHandler.post(new Runnable() {
                 public void run() {
                     System.out.println("Message!");
-                    System.out.println(remoteMessage.getTo());
                     System.out.println(remoteMessage.getFrom());
-                    System.out.println(remoteMessage.getData());
-                    //TODO: check user or client...
-                    if(User.isUser()) {
+                    System.out.println("this is user admin "+ MainActivity.isAdmin);
+                    if(!MainActivity.isAdmin && remoteMessage.getFrom().contains("client")) {
+                        Toast toast = Toast.makeText(getApplicationContext(), remoteMessage.getNotification().getBody(), Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
+                    else if(MainActivity.isAdmin && remoteMessage.getFrom().contains("worker")){
                         Toast toast = Toast.makeText(getApplicationContext(), remoteMessage.getNotification().getBody(), Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();

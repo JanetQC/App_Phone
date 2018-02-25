@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -24,8 +24,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.SearchView;
 import android.widget.Switch;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.janetdo.toomapp.Helper.Catalog;
@@ -36,14 +34,10 @@ import com.example.janetdo.toomapp.Helper.ListHolder;
 import com.example.janetdo.toomapp.Helper.Problem;
 import com.example.janetdo.toomapp.Helper.SearchAdapter;
 import com.example.janetdo.toomapp.Helper.User;
-import com.example.janetdo.toomapp.Helper.WorkerAdapter;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.net.ConnectException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private SearchView fancySearchView;
@@ -60,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private List<Item> searchResults;
     private Switch workerSwitch;
     private NetworkInfo activeNetwork;
+    public static boolean isAdmin = false;
     public static Context context;
 
 
@@ -71,12 +66,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         ConnectivityManager cm =
                 (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-         activeNetwork = cm.getActiveNetworkInfo();
+        activeNetwork = cm.getActiveNetworkInfo();
         cloudantService = new CloudantService();
 
         initViewElements();
         setDefaultView();
-        //checkCurrentState();
+        // checkCurrentState();
         createItemCatalog();
         createSalesItemCatalog();
 
@@ -85,12 +80,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     }
 
-    public static Context getContext(){
+    public static Context getContext() {
         return context;
     }
+
     private void createItemCatalog() {
         try {
-            catalog = new Catalog(getAssets().open("temp1.json"));
+            catalog = new Catalog(getAssets().open("product_data.json"));
             catalog.initSortiment();
             problemCatalog = new Catalog(getAssets().open("problems.json"));
             incidentCatalog = new Catalog(getAssets().open("flaws.json"));
@@ -112,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
     }
 
-    //TODO: this is not happening
     private void checkCurrentState() {
         if (!User.isUser()) {
             workerSwitch.setChecked(true);
@@ -129,18 +124,45 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         btnProblem = (Button) findViewById(R.id.btnProblem);
         searchList = findViewById(R.id.searchList);
         searchList.setVisibility(View.GONE);
+        initPressListener(btnWorker);
+        initPressListener(btnProblem);
+        initPressListener(btnMap);
+        initPressListener(btnScan);
         initSearchListener();
+    }
+
+    private void initPressListener(Button button) {
+        button.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(getResources().getColor(R.color.grey), PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     private void setDefaultView() {
         workerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isAdmin) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean userIsAdmin) {
 
-                if (isAdmin) {
+                if (userIsAdmin) {
                     FirebaseMessaging.getInstance().subscribeToTopic("worker");
                     FirebaseMessaging.getInstance().unsubscribeFromTopic("client");
                     showAllProblems(buttonView);
+                    //   isAdmin = false;
+                    User.setIsUser(false);
                 } else {
                     FirebaseMessaging.getInstance().subscribeToTopic("client");
                     FirebaseMessaging.getInstance().unsubscribeFromTopic("worker");
@@ -148,7 +170,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     btnWorker.setVisibility(View.VISIBLE);
                     btnProblem.setVisibility(View.VISIBLE);
                     btnScan.setVisibility(View.VISIBLE);
-                  searchList.setVisibility(View.GONE);
+                    searchList.setVisibility(View.GONE);
+                    //    isAdmin = true;
                     User.setIsUser(true);
                 }
             }
@@ -174,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             @Override
             public void onClick(View v) {
                 showTableSearch("");
-              searchList.setVisibility(View.VISIBLE);
+                searchList.setVisibility(View.VISIBLE);
                 isSearch(true);
             }
 
@@ -192,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         greenRect.setOnClickListener(new SearchView.OnClickListener() {
             @Override
             public void onClick(View v) {
-              searchList.setVisibility(View.GONE);
+                searchList.setVisibility(View.GONE);
                 isSearch(false);
                 hideKeyboard(v);
             }
@@ -218,14 +241,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showPopupWindow(searchResults.get(i));
+                showPopupWindow(searchResults.get(i), i);
                 View rowView = adapterView.getAdapter().getView(i, view, null);
                 System.out.println("start");
 
             }
         });
     }
-    public static void setNavigationOnClickListener(ImageView view, int position){
+
+    public static void setNavigationOnClickListener(ImageView view, int position) {
         System.out.println(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 holder.initItemList(salesCatalog);
                 intent.putExtra("salesPrice", holder);
                 Item item = catalog.getCatalog().get(position);
-                System.out.println("Show way to category"+ item.getCategory());
+                System.out.println("Show way to category" + item.getCategory());
                 intent.putExtra("category", item.getCategory());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 MainActivity.getContext().startActivity(intent);
@@ -246,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     }
 
-    private void showPopupWindow(Item item) {
+    private void showPopupWindow(Item item, int position) {
 
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -261,16 +285,21 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         TextView price = popupView.findViewById(R.id.price);
         TextView name = popupView.findViewById(R.id.textName);
         TextView desc = popupView.findViewById(R.id.textDesc);
-        if(item.getSalesPrice() != 0.0) {
+        ImageView navi = popupView.findViewById(R.id.navi);
+        setNavigationOnClickListener(navi, position);
+
+
+        if (item.getSalesPrice() != 0.0) {
             TextView salesPrice = popupView.findViewById(R.id.salesPrice);
             salesPrice.setVisibility(View.VISIBLE);
-            salesPrice.setText(Double.toString(item.getSalesPrice()) + " €");
+
+            salesPrice.setText(String.format("%.2f", item.getSalesPrice()) + " €");
             salesPrice.setTextSize(40);
-        salesPrice.setTextColor(getResources().getColor(R.color.darkRed));
-        price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            salesPrice.setTextColor(getResources().getColor(R.color.darkRed));
+            price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
-        price.setText(Double.toString(item.getPrice()) + " €");
+        price.setText(String.format("%.2f", item.getPrice()) + " €");
         price.setTextColor(getResources().getColor(R.color.black));
 
         itemPic = popupView.findViewById(R.id.itemPic);
@@ -297,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextSubmit(String s) {
         showTableSearch(s);
-      searchList.setVisibility(View.VISIBLE);
+        searchList.setVisibility(View.VISIBLE);
         isSearch(true);
 
         return true;
@@ -308,12 +337,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if (isSearch) {
             visible = View.GONE;
         }
-        if (User.isUser()) {
-            btnWorker.setVisibility(visible);
-            btnProblem.setVisibility(visible);
-            btnScan.setVisibility(visible);
-
-        }
+        //TODO: correct logic?
+        btnWorker.setVisibility(visible);
+        btnProblem.setVisibility(visible);
+        btnScan.setVisibility(visible);
     }
 
     @Override
@@ -348,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         List<Incident> incidents;
         List<Problem> problems;
         boolean isWiFi = false;
-        if(activeNetwork != null) {
+        if (activeNetwork != null) {
             isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
         }
         if (isWiFi) {
@@ -397,6 +424,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 break;
             case "dämmstoffe":
                 drawable = getDrawable(R.drawable.daemmstoffe);
+                break;
+            case "leuchten":
+                drawable = getDrawable(R.drawable.lampen);
                 break;
             default:
                 drawable = getDrawable(R.drawable.sonstiges);

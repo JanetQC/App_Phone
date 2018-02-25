@@ -6,9 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -27,7 +25,7 @@ import java.util.Map;
 
 public class DrawView extends View {
     Paint paint = new Paint();
-    private float zeroX = 745;
+    private float zeroX = 730;
     private float zeroY = 590;
     List<String> leftUp;
     List<String> rightUp;
@@ -35,14 +33,17 @@ public class DrawView extends View {
     List<String> rightDown;
     Map<String, Coordinate> wholeMap;
     Coordinate coordinate;
-    List<ImageView> allPins;
+    List<Item> allSalesItems;
     String category;
+    float additionalLength;
+    float distanceFirstUp = 305;
+    boolean isLeft = true;
 
     private void init() {
         paint.setColor(Color.RED);
         paint.setStrokeWidth(6f);
 
-        allPins = new ArrayList<>();
+        /// allSalesItems = new ArrayList<>();
         leftUp = new ArrayList<>();
         rightUp = new ArrayList<>();
         leftDown = new ArrayList<>();
@@ -71,22 +72,29 @@ public class DrawView extends View {
         wholeMap.put("bad_dusche_1", coord2);
         wholeMap.put("bad_dusche_2", coord3);
 
-        wholeMap.put("leuchten_1", coord4);
+        wholeMap.put("leuchten", coord4);
         wholeMap.put("leuchten_2", coord5);
-        wholeMap.put("lacke_2", coord6);
+        wholeMap.put("lacke", coord6);
 
         wholeMap.put("tapeten", coord7);
         wholeMap.put("daemmungen", coord8);
         wholeMap.put("garten", coord9);
 
         wholeMap.put("haushalt", coord10);
-        wholeMap.put("kamin", coord11);
-        wholeMap.put("lacke_1", coord12);
+        wholeMap.put("bauzubehoer", coord11);
+        wholeMap.put("baustoffe", coord12);
+
+        initPins();
     }
 
-    public DrawView(Context context,  List<ImageView> allPins, String category) {
+    private void initPins() {
+        //Item item = allPins.get(0);
+        // String category = item.getCategory();
+    }
+
+    public DrawView(Context context, List<Item> allSalesItems, String category) {
         super(context);
-        this.allPins = allPins;
+        this.allSalesItems = allSalesItems;
         this.category = category;
         init();
     }
@@ -101,64 +109,103 @@ public class DrawView extends View {
         init();
     }
 
-    public void setCoordinate(Coordinate coord){
+
+
+    public void setCoordinate(Coordinate coord) {
         this.coordinate = coord;
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         canvas.drawColor(0x00AAAAAA);
-        //first up
-        float d1 = 285;
+        List<Coordinate> allCoordinates = new ArrayList<>();
+
+        if (category.isEmpty()) {
+            return;
+        }
+        Coordinate firstUp = new Coordinate(zeroX, zeroY - distanceFirstUp);
+        System.out.println("Chosen category is " + category);
+        allCoordinates = getDrawCoordinates(category);
+
+
+        canvas.drawLine(zeroX, zeroY, firstUp.getX(), firstUp.getY() - 3, paint);
+        canvas.drawLine(firstUp.getX(), firstUp.getY(), allCoordinates.get(0).getX() + additionalLength, allCoordinates.get(0).getY(), paint);
+        canvas.drawLine(allCoordinates.get(0).getX(), allCoordinates.get(0).getY(), allCoordinates.get(1).getX(), allCoordinates.get(1).getY(), paint);
+        Coordinate lastCoordinate = allCoordinates.get(allCoordinates.size() - 1);
+        System.out.println("actual size: " + allCoordinates.size());
+        Drawable icon = getResources().getDrawable(R.drawable.event);
+        Bitmap bitmapIcon = ((BitmapDrawable) icon).getBitmap();
+        int xIconDistance = 55;
+        int yIconDistance = 30;
+        float x = lastCoordinate.getX() - xIconDistance;
+        float y = lastCoordinate.getY() - yIconDistance;
+        if (isLeft) {
+            x = lastCoordinate.getX() + xIconDistance;
+        }
+        isLeft = true;
+        canvas.drawBitmap(bitmapIcon, x, y, null);
+/*
+        Drawable saleinfo = getResources().getDrawable(R.drawable.sale_info);
+        for (int i = 0; i < allSalesItems.size(); i++) {
+            Bitmap bitmapSaleInfo = ((BitmapDrawable) saleinfo).getBitmap();
+            List<Coordinate> coordinates = getDrawCoordinates(allSalesItems.get(i).getCategory());
+            for (int j = 0; j < coordinates.size(); j++) {
+                Coordinate coord = coordinates.get(j);
+                float coordX = coord.getX() - xIconDistance;
+                float coordY = coord.getY() - yIconDistance;
+                if (isLeft) {
+                    coordX = coord.getX() + xIconDistance;
+                }
+                canvas.drawBitmap(bitmapSaleInfo, coordX, coordY, null);
+                isLeft = true;
+            }
+        }
+*/
+    }
+
+    public List<Coordinate> getDrawCoordinates(String category) {
         // for left + partly right smaller distance
         float leftDistance = 180;
         //first big right
-        float rightDistance = 220;
-        Coordinate firstUp = new Coordinate(zeroX, zeroY - d1);
+        float rightDistance = 175;
+        Coordinate firstUp = new Coordinate(zeroX, zeroY - distanceFirstUp);
         List<Coordinate> allCoordinates = new ArrayList<>();
-
-        if(category.isEmpty()){
-            return;
-        }
-        System.out.println("Chosen category is "+ category);
         Coordinate defaultCoordinate = getPath(category);
-       if(coordinate == null){
-           coordinate = defaultCoordinate;
-       }
-        float additionalLength;
-       //left half of the map
+        if (coordinate == null) {
+            coordinate = defaultCoordinate;
+        } else {
+            coordinate = new Coordinate(0, 0);
+        }
+        //float additionalLength;
+        //left half of the map
         if (coordinate.getX() < 0) {
+            isLeft = true;
             Coordinate left = new Coordinate(firstUp.getX() - leftDistance * Math.abs(coordinate.getY()), firstUp.getY());
-                additionalLength = -4;
+            additionalLength = -3;
             allCoordinates.add(left);
             if (coordinate.getY() > 0) {
-                Coordinate downHalf = new Coordinate(left.getX(), left.getY() + (d1 / 2));
+                Coordinate downHalf = new Coordinate(left.getX(), left.getY() + (distanceFirstUp / 2));
                 allCoordinates.add(downHalf);
             } else {
-                Coordinate upHalf = new Coordinate(left.getX(), left.getY() - (d1 / 2));
+                Coordinate upHalf = new Coordinate(left.getX(), left.getY() - (distanceFirstUp / 2));
                 allCoordinates.add(upHalf);
             }
         }
         // right half of the map
         else {
+            isLeft = false;
             Coordinate right = new Coordinate(firstUp.getX() + rightDistance * Math.abs(coordinate.getY()), firstUp.getY());
-            additionalLength = 4;
+            additionalLength = 3;
             allCoordinates.add(right);
             if (coordinate.getY() > 0) {
-                Coordinate downHalf = new Coordinate(right.getX(), right.getY() - (d1 / 2));
+                Coordinate downHalf = new Coordinate(right.getX(), right.getY() - (distanceFirstUp / 2));
                 allCoordinates.add(downHalf);
             } else {
-                Coordinate upHalf = new Coordinate(right.getX(), right.getY() + (d1 / 2));
+                Coordinate upHalf = new Coordinate(right.getX(), right.getY() + (distanceFirstUp / 2));
                 allCoordinates.add(upHalf);
             }
         }
-
-        canvas.drawLine(zeroX, zeroY, firstUp.getX(), firstUp.getY()-4, paint);
-        canvas.drawLine(firstUp.getX(), firstUp.getY(),allCoordinates.get(0).getX()+additionalLength, allCoordinates.get(0).getY(), paint);
-        canvas.drawLine(allCoordinates.get(0).getX(), allCoordinates.get(0).getY(), allCoordinates.get(1).getX(), allCoordinates.get(1).getY(), paint);
-        Drawable icon = getResources().getDrawable(R.drawable.event);
-        icon.setBounds(200, 200, 200, 200);
-        icon.draw(canvas);
+        return allCoordinates;
     }
 
     private Coordinate getPath(String category) {

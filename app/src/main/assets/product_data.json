@@ -1,0 +1,58 @@
+[
+  {
+    "id": "1",
+    "name": "2 in 1 Buntlack",
+    "description": "Einen perfekt glänzenden Anstrich auf Holz, Metall oder Kunststoff erhalten Sie mit dem 2in1 Buntlack der Qualitätsmarke toom. Er ist eine Kombination aus Grundierung und Farbauftrag, die durch den TÜV sowie den „Blauen Engel“ zertifiziert wurde. ",
+    "aisle": 1,
+    "category": "lacke",
+    "price": 13.89,
+    "salesPrice": 6.80,
+    "scanCode": "111111111111"
+  },
+  {
+    "id": "14627",
+    "name": "Home Collection Paradise Vliestapete ",
+    "description": "Paradis Vliestapete besitzt eine kraftvolle und ausdrucksstarke Farbe und ist für anspruchsvolle Einrichter. Es verleiht dem Raum ein tropisches Flair.",
+    "aisle": 2,
+    "category": "tapeten",
+    "price": 15.63,
+    "salesPrice": 14.99,
+    "scanCode": "222222222222"
+  },
+  {
+    "id": "17767",
+    "name": "Esche Diele 4er Pack ",
+    "description": "Für den Terrassenbau, leicht zu bearbeiten mit Holzöl oder Holzarten aus heimischen Wäldern.",
+    "aisle": 3,
+    "category": "bodenbelag",
+    "price": 59.99,
+    "scanCode": "333333333333"
+  },
+  {
+    "id": "4092392",
+    "name": "Wärmedämmplatten",
+    "description": "Die Wärmedämmplatten „Multipor“ sind ideal zur Dämmung von Wänden, Decken und Dächern.",
+    "aisle": 4,
+    "category": "bodenbelag",
+    "price": 36.49,
+    "salesPrice": 26.49,
+    "scanCode": "4444444444444"
+  },
+  {
+    "id": "239135",
+    "name": "Eglo Deckenleuchte",
+    "description": "Sorgt für ein Diffuses, blendfreies Licht. Besitzt eine klassische Fassung und erhellt jeden Raum in einer warmen Atmosphäre.",
+    "aisle": 5,
+    "category": "leuchten",
+    "price": 24.99,
+    "scanCode": "5555555555555"
+  },
+  {
+    "id": "30430",
+    "name": "Meister-Box für alle Baustoffe 110-tlg.",
+    "description": "Die Meister-Box aus dem Hause Fischer beinhaltet insgesamt 110 Universaldübel aus hochwertigem Nylon. Sie sind allesamt übersichtlich in der Box sortiert und können für alle Baustoffe verwendet werden.",
+    "aisle": 7,
+    "category": "bauzubehoer",
+    "price": 81.49
+  }
+]

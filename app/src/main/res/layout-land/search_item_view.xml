@@ -8,14 +8,14 @@
 
     <TextView
         android:id="@+id/itemName"
-        android:layout_width="400dp"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="29dp"
-        android:layout_marginTop="18dp"
-        android:textSize="25dp"
-        android:text="Ware" />
+        android:layout_marginTop="5dp"
+        android:text="Ware"
+        android:textSize="25dp" />
 
     <ImageView
         android:id="@+id/navigation"
@@ -23,17 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/itemName"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="195dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="245dp"
         android:layout_toRightOf="@id/itemName"
         app:srcCompat="@drawable/compass" />
-
-    <ImageView
-        android:id="@+id/information"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="5dp"
-        android:layout_alignTop="@id/navigation"
-        android:layout_toRightOf="@id/navigation"
-        android:layout_marginLeft="120dp"
-        app:srcCompat="@drawable/info" />
 </RelativeLayout>

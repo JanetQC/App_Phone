@@ -10,7 +10,7 @@
         android:id="@+id/taskType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="15dp"
         android:text="Anzeigen: " />
     <CheckBox
@@ -41,7 +41,7 @@
         android:id="@+id/filterType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="135dp"
+        android:layout_marginLeft="335dp"
         android:layout_toRightOf="@id/checkIncidents"
         android:layout_alignBaseline="@id/taskType"
         android:text="Sortieren nach: " />

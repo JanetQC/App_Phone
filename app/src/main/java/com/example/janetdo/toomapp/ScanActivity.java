@@ -3,24 +3,17 @@ package com.example.janetdo.toomapp;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.janetdo.toomapp.Helper.Catalog;
-import com.example.janetdo.toomapp.Helper.CloudantService;
 import com.example.janetdo.toomapp.Helper.Item;
 import com.google.zxing.Result;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -51,7 +44,7 @@ public class ScanActivity extends Activity implements ZXingScannerView.ResultHan
     public void handleResult(Result rawResult) {
         Catalog catalog = null;
         try {
-             catalog = new Catalog(getAssets().open("temp1.json"));
+             catalog = new Catalog(getAssets().open("product_data.json"));
             catalog.initSortiment();
         } catch (Exception e) {
             System.out.println("Cannot read JSON file: " + e);
