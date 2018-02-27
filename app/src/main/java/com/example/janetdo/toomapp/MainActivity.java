@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         View popupView = inflater.inflate(R.layout.popup_window, null);
 
         boolean focusable = true;
-        final PopupWindow popupWindow = new PopupWindow(popupView, 1000, 450, focusable);
+        final PopupWindow popupWindow = new PopupWindow(popupView, 1300, 700, focusable);
         RelativeLayout relativeLayout = findViewById(R.id.mainLayout);
         popupWindow.showAtLocation(relativeLayout, Gravity.CENTER, 0, 0);
 
@@ -306,9 +306,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         desc.setText(item.getDescription());
         name.setText(item.getName());
-        price.setTextSize(40);
-        name.setTextSize(35);
-        desc.setTextSize(25);
+        price.setTextSize(20);
+        name.setTextSize(25);
+        desc.setTextSize(15);
 
 
         popupView.setOnTouchListener(new View.OnTouchListener() {

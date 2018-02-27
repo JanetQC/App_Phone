@@ -9,14 +9,14 @@
         android:src="@drawable/beacon_black_small"
         android:layout_marginTop="20dp"
         android:focusable="false"
-        android:layout_marginLeft="10dp"
-        android:layout_width="80dp"
-        android:layout_height="50dp" />
+        android:layout_marginLeft="5dp"
+        android:layout_width="60dp"
+        android:layout_height="40dp" />
 
     <TextView
         android:id="@+id/title"
         android:text="Android Name"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:focusable="false"
         android:maxLines="1"
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
     <TextView
         android:id="@+id/desc"
         android:text="Android Version"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,8 +41,8 @@
     <Button
         android:id="@+id/deleteTask"
         android:background="@drawable/delete_icon"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/desc"
         android:layout_marginEnd="20dp"
         android:layout_toStartOf="@+id/acceptTask"
@@ -52,8 +52,8 @@
     <Button
         android:id="@+id/acceptTask"
         android:background="@drawable/accept_task"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/desc"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10dp"

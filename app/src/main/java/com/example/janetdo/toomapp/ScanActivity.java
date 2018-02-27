@@ -66,7 +66,7 @@ public class ScanActivity extends Activity implements ZXingScannerView.ResultHan
         View popupView = inflater.inflate(R.layout.popup_window, null);
 
         boolean focusable = true;
-        final PopupWindow popupWindow = new PopupWindow(popupView, 1000, 400, focusable);
+        final PopupWindow popupWindow = new PopupWindow(popupView, 1300, 700, focusable);
 
         popupWindow.showAtLocation(mScannerView, Gravity.CENTER, 0, 0);
 
@@ -82,9 +82,9 @@ public class ScanActivity extends Activity implements ZXingScannerView.ResultHan
 
         desc.setText(item.getDescription());
         name.setText(item.getName());
-        price.setTextSize(40);
-        name.setTextSize(35);
-        desc.setTextSize(25);
+        price.setTextSize(20);
+        desc.setTextSize(10);
+        name.setTextSize(15);
 
 
         popupView.setOnTouchListener(new View.OnTouchListener() {

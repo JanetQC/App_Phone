@@ -11,65 +11,66 @@
 
     <ImageView
         android:id="@+id/rectimage"
-        android:layout_width="560dp"
-        android:layout_height="170dp"
+        android:layout_width="380dp"
+        android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="18dp"
-      ></ImageView>
+        ></ImageView>
 
     <TextView
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_alignLeft="@+id/rectimage"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:text="Artikel suchen"
-        android:textColor="@color/backgroundGreen"
-        android:textSize="45dp" />
-
+        android:textColor="@color/toomGreen"
+        android:textSize="30dp" />
     <android.support.v7.widget.SearchView
         android:id="@+id/fancySearch"
-        android:layout_width="480dp"
-        android:layout_height="40dp"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
         android:layout_alignLeft="@+id/editText"
         android:layout_alignStart="@+id/editText"
         android:layout_below="@+id/editText"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:tooltipText="Produkt eingeben" />
 
+
     <Button
         android:id="@+id/btnWorker"
-        android:layout_width="260dp"
-        android:layout_height="260dp"
+        android:layout_width="150dp"
+        android:layout_height="125dp"
         android:layout_alignStart="@+id/rectimage"
         android:layout_below="@+id/rectimage"
         android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
         android:background="@drawable/worker_icon"
         android:onClick="openWorker"
-       />
+        />
 
     <Button
         android:id="@+id/btnProblem"
-        android:layout_width="260dp"
-        android:layout_height="260dp"
-        android:layout_alignEnd="@+id/rectimage"
+        android:layout_width="150dp"
+        android:layout_height="125dp"
         android:layout_below="@+id/rectimage"
-        android:layout_marginLeft="30dp"
+        android:layout_alignEnd="@id/rectimage"
         android:layout_marginTop="30dp"
-        android:layout_toRightOf="@+id/btnWorker"
+        android:layout_marginRight="20dp"
         android:background="@drawable/problem_icon"
         android:onClick="openProblem"
-       />
+        />
 
     <Button
         android:id="@+id/btnScan"
-        android:layout_width="300dp"
-        android:layout_height="260dp"
+        android:layout_width="140dp"
+        android:layout_height="125dp"
         android:layout_below="@+id/rectimage"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="30dp"
         android:layout_toRightOf="@+id/btnProblem"
         android:background="@drawable/scan"
@@ -78,10 +79,10 @@
 
     <Button
         android:id="@+id/btnMap"
-        android:layout_width="300dp"
-        android:layout_height="185dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="140dp"
+        android:layout_height="105dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
         android:layout_toRightOf="@+id/rectimage"
         android:background="@drawable/map_icon"
         android:onClick="openMap"
@@ -89,20 +90,28 @@
 
     <Switch
         android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/editText"
-/>
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="500dp"
+        />
+
+
+
+    <TextView
+        android:id="@+id/numberMsg"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_above="@+id/switch1"
+        android:layout_toStartOf="@+id/switch1" />
 
     <GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rectimage">
-           <ListView
+        <ListView
             android:id="@+id/searchList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></ListView>
-       </GridLayout>
+    </GridLayout>
 </RelativeLayout>

@@ -9,7 +9,7 @@
     tools:context="com.example.janetdo.toomapp.WorkerActivity">
     <ImageView
         android:id="@id/rectimage"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:layout_width="match_parent"
         android:src="@drawable/green_rectangle">
     </ImageView>
@@ -18,12 +18,12 @@
         android:id="@+id/activityText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
         android:text="Mitarbeiter finden"
         android:textColor="@color/white"
         android:ems="10"
-        android:textSize="30dp"
+        android:textSize="20dp"
         />
 
     <TextView
@@ -31,54 +31,55 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/activityText"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
         android:text="Wie können wir Ihnen helfen?"
-        android:textSize="35dp"/>
+        android:textSize="20dp"/>
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/helpText"
-        android:textSize="30dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="vertical"
         android:id="@+id/radioGroup">
         <RadioButton android:id="@+id/generalHelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Allgemeine Beratung"
-            android:layout_marginTop="20dp"
-            android:textSize="25dp"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"
             android:onClick="onRadioButtonClicked"
             android:checked="true"/>
         <RadioButton android:id="@+id/specificHelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="Beratung zu einem konkreten Produkt"
-            android:textSize="25dp"
+            android:textSize="15dp"
             android:onClick="onRadioButtonClicked"/>
         <RadioButton android:id="@+id/other"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sonstiges"
-            android:textSize="25dp"
+            android:textSize="15dp"
             android:onClick="onRadioButtonClicked"/>
     </RadioGroup>
 
     <Button
         android:id="@+id/searchWorker"
-        android:layout_width="280dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/radioGroup"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/green_rectangle"
         android:text="Mitarbeiter finden"
         android:textAllCaps="false"
-        android:textSize="22dp"
+        android:textSize="15dp"
         android:onClick="sendProblem"
         android:textColor="@color/white" />
 

@@ -131,7 +131,7 @@ public class MapActivity extends AppCompatActivity {
         Item item = allSalesItems.get(id);
 
         boolean focusable = true;
-        final PopupWindow popupWindow = new PopupWindow(popupView, 1000, 450, focusable);
+        final PopupWindow popupWindow = new PopupWindow(popupView, 1300, 700, focusable);
 
         popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
@@ -171,11 +171,10 @@ public class MapActivity extends AppCompatActivity {
 
         desc.setText(item.getDescription());
         name.setText(item.getName());
-        price.setTextSize(40);
-        desc.setTextSize(25);
-        salesPrice.setTextSize(40);
-        name.setTextSize(35);
-        name.setTextSize(25);
+        price.setTextSize(20);
+        desc.setTextSize(10);
+        salesPrice.setTextSize(20);
+        name.setTextSize(15);
 
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override

@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/type"
-        android:layout_width="400dp"
+        android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
@@ -23,11 +23,11 @@
 
     <TextView
         android:id="@+id/description"
-        android:layout_width="380dp"
+        android:layout_width="280dp"
         android:layout_height="60dp"
         android:layout_below="@id/aisle"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="description" />
 
     <Button
@@ -36,8 +36,8 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/description"
-        android:layout_toLeftOf="@id/accept"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="230dp"
         />
 
     <Button
@@ -45,11 +45,10 @@
         android:background="@drawable/accept_task"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_marginLeft="50dp"
-        android:layout_marginRight="10dp"
         android:layout_below="@id/description"
-        android:layout_marginTop="40dp"
+        android:layout_toRightOf="@id/delete"
+        android:layout_marginTop="20dp"
         />
 
 
