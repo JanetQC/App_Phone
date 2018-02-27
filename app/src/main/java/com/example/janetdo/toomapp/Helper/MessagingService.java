@@ -27,13 +27,13 @@ public class MessagingService extends FirebaseMessagingService {
                 public void run() {
                     System.out.println("Message!");
                     System.out.println(remoteMessage.getFrom());
-                    System.out.println("this is user admin "+ MainActivity.isAdmin);
-                    if(!MainActivity.isAdmin && remoteMessage.getFrom().contains("client")) {
+                    System.out.println("this is user admin "+ Properties.getInstance().isAdmin());
+                    if(!Properties.getInstance().isAdmin() && remoteMessage.getFrom().contains("client")) {
                         Toast toast = Toast.makeText(getApplicationContext(), remoteMessage.getNotification().getBody(), Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                     }
-                    else if(MainActivity.isAdmin && remoteMessage.getFrom().contains("worker")){
+                    else if(Properties.getInstance().isAdmin() && remoteMessage.getFrom().contains("worker")){
                         Toast toast = Toast.makeText(getApplicationContext(), remoteMessage.getNotification().getBody(), Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();

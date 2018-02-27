@@ -55,7 +55,7 @@ public class IncidentActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Der Mangel wurde gemeldet. Vielen Dank.",
                 Toast.LENGTH_LONG).show();
         Incident incident = new Incident(incidentTextField.getText().toString().trim());
-      //  cloudantService.writeToTable("flaws", incident);
+        cloudantService.writeToTable("flaws", incident);
         try {
             wait(1000);
         } catch (Exception e) {

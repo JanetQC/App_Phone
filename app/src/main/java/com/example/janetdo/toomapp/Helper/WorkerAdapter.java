@@ -88,7 +88,7 @@ public class WorkerAdapter extends ArrayAdapter<String> {
         } else {
             txtTitle.setText(INCIDENT_STRING);
         }
-        description.setText("Gang " + Integer.toString(type.getAisle()) + " - " + type.getComment());
+        description.setText("Gang " + Integer.toString(type.getAisle()) + "  " + type.getComment());
         imageView.setImageResource(state[getImage(type.getState().toString())]);
 
         Timestamp today = new Timestamp(System.currentTimeMillis());

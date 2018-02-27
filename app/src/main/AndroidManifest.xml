@@ -10,7 +10,7 @@
     <application
         android:height="300dp"
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
@@ -20,7 +20,7 @@
             </intent-filter>
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@drawable/logo" />
+                android:resource="@drawable/app_logo" />
         </service>
         <service android:name=".Helper.MessagingService">
             <intent-filter>
@@ -28,7 +28,7 @@
             </intent-filter>
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@drawable/logo" />
+                android:resource="@drawable/app_logo" />
         </service>
 
         <activity android:name=".MainActivity">

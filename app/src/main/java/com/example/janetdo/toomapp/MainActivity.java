@@ -9,9 +9,11 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -32,6 +34,7 @@ import com.example.janetdo.toomapp.Helper.Incident;
 import com.example.janetdo.toomapp.Helper.Item;
 import com.example.janetdo.toomapp.Helper.ListHolder;
 import com.example.janetdo.toomapp.Helper.Problem;
+import com.example.janetdo.toomapp.Helper.Properties;
 import com.example.janetdo.toomapp.Helper.SearchAdapter;
 import com.example.janetdo.toomapp.Helper.User;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -54,9 +57,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private List<Item> searchResults;
     private Switch workerSwitch;
     private NetworkInfo activeNetwork;
-    public static boolean isAdmin = false;
     public static Context context;
 
+    private Properties props;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
         ConnectivityManager cm =
                 (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-
         activeNetwork = cm.getActiveNetworkInfo();
         cloudantService = new CloudantService();
 
@@ -77,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         FirebaseMessaging.getInstance().subscribeToTopic("client");
         FirebaseMessaging.getInstance().unsubscribeFromTopic("worker");
+        Properties.getInstance().setAdmin(false);
+
 
     }
 
@@ -96,6 +100,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             System.out.println("Cannot read JSON file: " + e);
         }
 
+    }
+    @Override
+    protected void onResume() {
+        workerSwitch.setChecked(false);
+        super.onResume();
     }
 
     private void createSalesItemCatalog() {
@@ -152,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         });
     }
 
+
     private void setDefaultView() {
         workerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -160,9 +170,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 if (userIsAdmin) {
                     FirebaseMessaging.getInstance().subscribeToTopic("worker");
                     FirebaseMessaging.getInstance().unsubscribeFromTopic("client");
+                    Properties.getInstance().setAdmin(true);
                     showAllProblems(buttonView);
-                    //   isAdmin = false;
-                    User.setIsUser(false);
+                    System.out.println("WORKER VIEW");
                 } else {
                     FirebaseMessaging.getInstance().subscribeToTopic("client");
                     FirebaseMessaging.getInstance().unsubscribeFromTopic("worker");
@@ -171,8 +181,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     btnProblem.setVisibility(View.VISIBLE);
                     btnScan.setVisibility(View.VISIBLE);
                     searchList.setVisibility(View.GONE);
-                    //    isAdmin = true;
-                    User.setIsUser(true);
+                    Properties.getInstance().setAdmin(false);
                 }
             }
         });
@@ -276,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         View popupView = inflater.inflate(R.layout.popup_window, null);
 
         boolean focusable = true;
-        final PopupWindow popupWindow = new PopupWindow(popupView, 1300, 700, focusable);
+        final PopupWindow popupWindow = new PopupWindow(popupView, 1000, 450, focusable);
         RelativeLayout relativeLayout = findViewById(R.id.mainLayout);
         popupWindow.showAtLocation(relativeLayout, Gravity.CENTER, 0, 0);
 
@@ -306,9 +315,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         desc.setText(item.getDescription());
         name.setText(item.getName());
-        price.setTextSize(20);
-        name.setTextSize(25);
-        desc.setTextSize(15);
+        price.setTextSize(40);
+        name.setTextSize(35);
+        desc.setTextSize(25);
 
 
         popupView.setOnTouchListener(new View.OnTouchListener() {

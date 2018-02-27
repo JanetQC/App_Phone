@@ -77,6 +77,12 @@ public class CloudantService {
         } catch (InterruptedException e) {
 
         }
+
+        System.out.println("HERE ARE ALL PROBLEMS");
+        System.out.println(allProblems.get(0).toString());
+        System.out.println(allProblems.get(1).toString());
+        System.out.println(allProblems.get(2).toString());
+        System.out.println(allProblems.size());
         return allProblems;
     }
 
@@ -98,6 +104,11 @@ public class CloudantService {
         } catch (InterruptedException e) {
 
         }
+        System.out.println("HERE ARE ALL INCIDENTS");
+        System.out.println(allIncidents.get(0).toString());
+        System.out.println(allIncidents.get(1).toString());
+        System.out.println(allIncidents.get(2).toString());
+        System.out.println(allIncidents.size());
         return allIncidents;
     }
 
